@@ -1,94 +1,107 @@
-# Application Security (AppSec) Engineering Portfolio
+# Secure API Lab
 
-A professional Application Security engineering monorepo showcasing practical vulnerability research, secure backend architecture, offensive testing methodologies, and defensive code remediation.
+A deliberately vulnerable FastAPI application and hardened counterpart designed to demonstrate practical Application Security engineering.
+
+## Objectives
+
+This project demonstrates:
+
+- Secure coding
+- API security
+- Authentication and authorization
+- Vulnerability discovery
+- Security testing
+- DevSecOps
+- Threat modeling
+- Secure software development
+
+## Project Structure
+
+- `vulnerable-api/` — intentionally vulnerable implementation
+- `secure-api/` — hardened implementation
+- `security-tests/` — security and regression tests
+- `docs/` — security documentation
+- `scripts/` — security and development utilities
+
+## Security Topics
+
+- Broken Access Control / IDOR
+- SQL Injection
+- XSS
+- SSRF
+- JWT weaknesses
+- Weak password handling
+- Rate-limit bypass
+- Mass assignment
+- Insecure file uploads
+- Excessive data exposure
 
 ---
 
-## Portfolio Monorepo Structure
+## Monorepo Layout
+
+All lab components, services, and documentation reside under the [`secure-api-lab/`](secure-api-lab/) directory:
 
 ```text
 AppSec/
 │
 ├── .gitignore                         # Monorepo-wide ignore rules
-├── README.md                          # Portfolio index & overview
+├── README.md                          # Repository overview & objectives
 │
-└── secure-api-lab/                    # [PROJECT 1] Secure API Engineering Lab
-    ├── docker-compose.yml             # Local multi-container lab environment
-    ├── README.md                      # Project 1 documentation & roadmap
-    ├── SECURITY.md                    # Project security & responsible disclosure policy
+└── secure-api-lab/                    # [Project 1 Root]
+    ├── docker-compose.yml             # Multi-container orchestration (Postgres & API)
+    ├── README.md                      # Dedicated Secure API Lab project guide
+    ├── SECURITY.md                    # Project security policy & disclosure rules
+    ├── .gitignore                     # Lab-specific ignore rules
     │
-    ├── vulnerable-api/                # FastAPI service with intentional vulnerabilities
-    │   ├── app/                       # Modular application code (core, db, schemas, api)
-    │   ├── alembic/                   # Database schema migrations
-    │   ├── tests/                     # Functional & vulnerability demonstration tests
-    │   ├── Dockerfile                 # Python 3.12 container specification
-    │   └── requirements.txt           # Service dependencies
+    ├── vulnerable-api/                # Intentionally vulnerable FastAPI application
+    │   ├── app/                       # Application source code (auth, users, documents)
+    │   ├── alembic/                   # PostgreSQL schema migrations
+    │   ├── tests/                     # 26 automated functional & vulnerability tests
+    │   ├── Dockerfile                 # Container image specification
+    │   └── requirements.txt           # Python dependencies
     │
-    ├── secure-api/                    # Hardened counterpart service (remediated reference)
+    ├── secure-api/                    # Hardened counterpart service (remediation reference)
     │   └── README.md
     │
-    ├── security-tests/                # Automated security test harness (DAST & regression)
+    ├── security-tests/                # External regression & health test harness
     │   ├── test_health.py
-    │   └── conftest.py
+    │   ├── conftest.py
+    │   └── requirements.txt
     │
-    ├── docs/                          # Comprehensive AppSec documentation
-    │   ├── architecture/              # Threat models & system architecture diagrams
+    ├── docs/                          # Application security assessment documentation
+    │   ├── architecture/              # System architecture & threat landscape diagrams
+    │   │   └── README.md
     │   ├── vulnerabilities/           # Individual technical vulnerability reports
     │   │   ├── VULN-001-IDOR-BOLA-User-Access.md
     │   │   └── VULN-002-SQL-Injection.md
     │   └── SECURITY-REPORT.md         # Centralized security assessment report
     │
-    └── scripts/                       # Development, seeding & security tooling utilities
+    └── scripts/                       # Operational, seeding & testing utilities
         └── README.md
 ```
 
 ---
 
-## Projects in this Monorepo
+## Quick Start
 
-### Project 1: Secure API Lab (`secure-api-lab/`)
-
-A controlled, local security lab environment demonstrating realistic API vulnerabilities and their defensive remediations.
-
-- **Technology Stack**: Python 3.12, FastAPI, PostgreSQL 16, SQLAlchemy 2.x, Alembic, Docker Compose, Burp Suite, Pytest.
-- **Vulnerabilities Researched & Documented**:
-  - **[VULN-001: Broken Object Level Authorization (BOLA / IDOR)](secure-api-lab/docs/vulnerabilities/VULN-001-IDOR-BOLA-User-Access.md)**:
-    - *CWE-639* | *OWASP API1:2023*
-    - Demonstrated unauthorized cross-tenant profile retrieval on `GET /api/v1/users/{user_id}`.
-  - **[VULN-002: SQL Injection (SQLi)](secure-api-lab/docs/vulnerabilities/VULN-002-SQL-Injection.md)**:
-    - *CWE-89* | *OWASP A03:2021 / API8:2023*
-    - Demonstrated error-based syntax manipulation and boolean-based inference table dumping on `GET /api/v1/users/search?q=<search>`. Remediated via parameterized queries.
-- **Assessment Report**: [SECURITY-REPORT.md](secure-api-lab/docs/SECURITY-REPORT.md)
-- **Architecture & Data Flows**: [architecture/README.md](secure-api-lab/docs/architecture/README.md)
-
----
-
-## Quick Start — Running Project 1
-
-To start the **Secure API Lab** environment:
+To launch the lab environment:
 
 ```bash
-# Navigate to Project 1
+# Navigate to the project directory
 cd secure-api-lab
 
-# Start the PostgreSQL and vulnerable-api services
+# Start the services with Docker Compose
 docker compose up -d
 
-# Verify container health
+# Verify services are healthy
 docker compose ps
 
-# Access Interactive API Documentation (Swagger UI)
+# Access Swagger UI interactive documentation
 open http://localhost:8000/docs
 
-# Run the automated test suite (26 tests)
+# Run automated tests inside the container
 docker compose exec vulnerable-api python -m pytest tests/ -v
 ```
 
----
-
-## Monorepo Standards & Design Principles
-
-1. **No Duplicated Root Artifacts**: All project-specific runtimes, compose definitions, and source code reside inside their respective project directories (`secure-api-lab/`).
-2. **Clean Version Control**: Single unified Git history tracking the monorepo root with no nested `.git` submodules or repositories.
-3. **Reproducible Security Research**: Every security finding includes root-cause analysis, proof-of-concept requests, verified defensive fixes, and automated regression tests.
-4. **Controlled Lab Safety**: All vulnerable components are strictly isolated to local environments and designed never to target or interact with third-party systems.
+For complete setup instructions, endpoint guides, vulnerability write-ups, and Burp Suite testing walkthroughs, see the **[secure-api-lab README](secure-api-lab/README.md)**.
