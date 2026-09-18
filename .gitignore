@@ -1,38 +1,56 @@
-# Python
+# ==============================================================================
+# AppSec Portfolio Monorepo .gitignore
+# ==============================================================================
+
+# Python Bytecode and Caches
 __pycache__/
 *.py[cod]
+*$py.class
 *.pyo
 
-# Virtual environment
+# Virtual Environments
 .venv/
 venv/
 env/
+ENV/
+env.bak/
+venv.bak/
 
-# Environment variables
+# Environment Configurations & Secrets
 .env
 .env.*
 !.env.example
 
-# Testing
+# Testing & Coverage
 .pytest_cache/
 .coverage
+.coverage.*
 htmlcov/
+.nox/
+.tox/
 
-# IDE
+# Security Scanners & Build Reports
+reports/
+*.sarif
+*.jsonl
+
+# IDE & Editor Directories
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
 
-# OS
+# Operating System Files
 .DS_Store
 Thumbs.db
 
-# Logs
-*.log
-
-# Build
+# Build Artifacts & Distribution
 dist/
 build/
 *.egg-info/
 
-# Security reports
-reports/
+# Logs & Databases
+*.log
+*.sqlite
+*.sqlite3
